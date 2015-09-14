@@ -15,7 +15,7 @@
       back_text: 'Back',
       is_hover: true,
       scrolltop : true, // jump to top when sticky nav menu toggle is clicked
-      init : false
+      init : false,
     },
 
     init : function (section, method, options) {

@@ -90,7 +90,7 @@ class foregroundTemplate extends BaseTemplate {
 			<ul class="title-area">
 				<li class="name">
 					<h1 class="title-name">
-					<a href="<?php echo $this->data['nav_urls']['mainpage']['href']; ?>">
+					<a href="/">
 					<?php if ($wgForegroundFeatures['navbarIcon'] != '0') { ?>
 						<img alt="<?php echo $this->text('sitename'); ?>" src="<?php echo $this->text('logopath') ?>" style="max-width: 64px;height:auto; max-height:36px; display: inline-block; vertical-align:middle;">
 					<?php } ?>					
@@ -108,30 +108,19 @@ class foregroundTemplate extends BaseTemplate {
 			<ul id="top-bar-left" class="left">
 				<li class="divider"></li>
 					<?php foreach ( $this->getSidebar() as $boxName => $box ) { if ( ($box['header'] != wfMessage( 'toolbox' )->text())  ) { ?>
-				<li class="has-dropdown active"  id='<?php echo Sanitizer::escapeId( $box['id'] ) ?>'<?php echo Linker::tooltip( $box['id'] ) ?>>
-					<a href="#"><?php echo htmlspecialchars( $box['header'] ); ?></a>
-						<?php if ( is_array( $box['content'] ) ) { ?>
+				<li class="<?php if ( is_array( $box['content'] ) && count($box['content']) > 0 ) { ?>has-dropdown <?php } ?>active"  id='<?php echo Sanitizer::escapeId( $box['id'] ) ?>'<?php echo Linker::tooltip( $box['id'] ) ?>>
+					<a href="/<?php echo htmlspecialchars( $box['header'] ); ?>"><?php echo htmlspecialchars( $box['header'] ); ?></a>
+						<?php if ( is_array( $box['content'] ) && count($box['content']) > 0 ) { ?>
 							<ul class="dropdown">
 								<?php foreach ( $box['content'] as $key => $item ) { echo $this->makeListItem( $key, $item ); } ?>
 							</ul>
 								<?php } } ?>
 						<?php } ?>
+				</li>
 			</ul>
 
+			<?php if ($wgUser->isLoggedIn()): ?>
 			<ul id="top-bar-right" class="right">
-				<li class="has-form">
-					<form action="<?php $this->text( 'wgScript' ); ?>" id="searchform" class="mw-search">
-						<div class="row">
-						<div class="small-12 columns">
-							<?php echo $this->makeSearchInput(array('placeholder' => wfMessage('searchsuggest-search')->text(), 'id' => 'searchInput') ); ?>
-							<button type="submit" class="button search"><?php echo wfMessage( 'search' )->text() ?></button>
-						</div>
-						</div>
-					</form>
-				</li>
-				<li class="divider show-for-small"></li>
-				<li class="has-form">
-
 				<li class="has-dropdown active"><a href="#"><i class="fa fa-cogs"></i></a>
 					<ul id="toolbox-dropdown" class="dropdown">
 						<?php foreach ( $this->getToolbox() as $key => $item ) { echo $this->makeListItem($key, $item); } ?>
@@ -140,27 +129,14 @@ class foregroundTemplate extends BaseTemplate {
 					</ul>
 				</li>
 
-				<?php if ($wgUser->isLoggedIn()): ?>
 				<li id="personal-tools-dropdown" class="has-dropdown active"><a href="#"><i class="fa fa-user"></i></a>
 					<ul class="dropdown">
 						<?php foreach ( $this->getPersonalTools() as $key => $item ) { echo $this->makeListItem($key, $item); } ?>
 					</ul>
 				</li>
-
-						<?php else: ?>
-							<li>
-								<?php if (isset($this->data['personal_urls']['anonlogin'])): ?>
-								<a href="<?php echo $this->data['personal_urls']['anonlogin']['href']; ?>"><?php echo wfMessage( 'login' )->text() ?></a>
-								<?php elseif (isset($this->data['personal_urls']['login'])): ?>
-									<a href="<?php echo htmlspecialchars($this->data['personal_urls']['login']['href']); ?>"><?php echo wfMessage( 'login' )->text() ?></a>
-									<?php else: ?>
-										<?php echo Linker::link(Title::newFromText('Special:UserLogin'), wfMessage( 'login' )->text()); ?>
-									<?php endif; ?>
-							</li>
-
-				<?php endif; ?>
-
 			</ul>
+			<?php endif; ?>
+
 		</section>
 		</nav>
 		<?php if ($wgForegroundFeatures['NavWrapperType'] != '0') echo "</div>"; ?>
@@ -199,7 +175,7 @@ class foregroundTemplate extends BaseTemplate {
 						$displaytitle = str_replace($pagetitle, $newtitle, $displaytitle);
 					?><h4 class="namespace label"><?php print $namespace; ?></h4><?php } ?>
 					<h2 class="title"><?php print $displaytitle; ?></h2>
-					<?php if ( $this->data['isarticle'] ) { ?><h3 id="tagline"><?php $this->msg( 'tagline' ) ?></h3><?php } ?>
+					<?php /*if ( $this->data['isarticle'] ) { ?><h3 id="tagline"><?php $this->msg( 'tagline' ) ?></h3><?php } */?>
 					<h5 class="subtitle"><?php $this->html('subtitle') ?></h5>
 					<div class="clear_both"></div>
 					<div class="mw-bodytext">
