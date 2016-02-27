@@ -176,11 +176,12 @@ class foregroundTemplate extends BaseTemplate {
 						$newtitle = str_replace($namespace.':', '', $pagetitle);
 						$displaytitle = str_replace($pagetitle, $newtitle, $displaytitle);
 					?><h4 class="namespace label"><?php print $namespace; ?></h4><?php } ?>
-                                        <h2 class="title"><?php print $displaytitle; ?></h2>
-					<?php /*if ( $this->data['isarticle'] ) { ?><h3 id="tagline"><?php $this->msg( 'tagline' ) ?></h3><?php } */?>
-					<h5 class="subtitle"><?php $this->html('subtitle') ?></h5>
-					<div class="clear_both"></div>
-					<div class="mw-bodytext">
+					<div id="content">
+					<h2  id="firstHeading" class="title"><?php print $displaytitle; ?></h2>
+                                        <?php /*if ( $this->data['isarticle'] ) { ?><h3 id="tagline"><?php $this->msg( 'tagline' ) ?></h3><?php } */?>
+					<h5 id="siteSub" class="subtitle"><?php $this->html('subtitle') ?></h5>
+					<div id="contentSub" class="clear_both"></div>
+					<div id="bodyContent" class="mw-bodytext">
 						<?php $this->html('bodytext') ?>
 						<div class="clear_both"></div>
 					</div>
